@@ -1,0 +1,21 @@
+.drag-block.BRANDS .maxwidth-theme{padding-bottom: 69px;}
+.drag-block.BRANDS .maxwidth-theme.no-title{padding-top: 69px;}
+
+.wrapper1:not(.with_left_block) #content .wrapper_inner.front .drag-block.container.BRANDS .maxwidth-theme{padding-bottom: 79px;}
+.wrapper1:not(.with_left_block) #content .wrapper_inner.front .drag-block.container.BRANDS .maxwidth-theme.no-title{padding-top: 79px;}
+
+.item-views.brands .item.bordered{
+	line-height: 150px;
+	height: 150px;
+}
+
+.item-views.brands .item.bordered{
+    border-left:none;
+}
+/*.item-views.brands .item.bordered:last-child{
+    border-right:1px solid #ececec;
+}*/
+
+.item-views.brands.with_border{
+    border-left:1px solid #ececec;
+}

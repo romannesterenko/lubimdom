@@ -1,0 +1,1 @@
+<a href="mailto:info@ligalijb.beget.tech">info@ligalijb.beget.tech</a>

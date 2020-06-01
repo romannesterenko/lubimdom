@@ -1,0 +1,11 @@
+/* 991 + 340 = 1331 */
+@media screen and (max-width: 1331px), projection and (max-width:1331px), tv and (max-width:1331px), handheld and (max-width:1331px){
+    body .wrapper1.sticky_menu:not(.sm)  #content .wrapper_inner .left_block{display:none;}
+	body .wrapper1.sticky_menu:not(.sm) #content .wrapper_inner .left_block > *{display:none;}
+    body .wrapper1.sticky_menu:not(.sm) .wrapper_inner .left_block .left_menu{display:block;}
+
+    .wrapper1.sticky_menu:not(.sm) .right_block:not(.catalog_page_detail_with_left) .product-view--side-left, 
+    .wrapper1.sticky_menu:not(.sm) .right_block:not(.catalog_page_detail_with_left) .product-view--side-right {width: 100%;}
+
+    .wrapper1.sticky_menu:not(.sm) .product-info .right_info .info_item {display: block!important;}
+}

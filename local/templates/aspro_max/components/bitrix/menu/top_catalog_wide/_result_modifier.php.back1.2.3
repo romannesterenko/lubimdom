@@ -1,0 +1,45 @@
+<?
+$arResult = CMax::getChilds($arResult);
+global $arTheme;
+
+if($arResult){
+	$MENU_TYPE = $arTheme['MEGA_MENU_TYPE']['VALUE'];
+	$bRightSide = $arTheme['SHOW_RIGHT_SIDE']['VALUE'] == 'Y';
+
+	$bRightBrand = $bRightSide && $arTheme['SHOW_RIGHT_SIDE']['DEPENDENT_PARAMS']['RIGHT_CONTENT']['VALUE'] == 'BRANDS';
+
+	if($bRightBrand) {
+        $arBrandsID = array();
+        foreach($arResult as $key=>$arItem)
+        {
+            if( isset($arItem['PARAMS']['BRANDS']) && $arItem['PARAMS']['BRANDS'] ) {
+                foreach($arItem['PARAMS']['BRANDS'] as $brandID) {
+                    $arBrandsID[$brandID] = $brandID;
+                }
+            }
+        }
+    
+        if($arBrandsID) {
+            $brandIblockId = CMaxCache::$arIBlocks[SITE_ID]["aspro_max_content"]["aspro_max_brands"][0];
+            $arBrandFilter = array('ACTIVE' => 'Y', 'IBLOCK_ID' => $brandIblockId, 'ID' => $arBrandsID);
+            $arBrandSelect = array('ID', 'PREVIEW_PICTURE', 'NAME', 'DETAIL_PAGE_URL', 'IBLOCK_ID');
+            $arBrands = CMaxCache::CIblockElement_GetList(array("SORT" => "ASC", "CACHE" => array("GROUP" => 'ID', "TAG" => CMaxCache::GetIBlockCacheTag($brandIblockId))), $arBrandFilter, false, false, $arBrandSelect);
+
+            if($arBrands) {
+                foreach($arResult as $key=>$arItem)
+                {
+                    if( isset($arItem['PARAMS']['BRANDS']) && $arItem['PARAMS']['BRANDS'] ) {
+                        foreach($arItem['PARAMS']['BRANDS'] as $brandKey => $brandID) {
+                            if($arBrands[$brandID]) {
+                                $arResult[$key]['PARAMS']['BRANDS'][$brandKey] = $arBrands[$brandID];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+	}
+
+	
+}
+?>

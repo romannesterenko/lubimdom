@@ -42,5 +42,12 @@ $aMenuLinks = Array(
 		Array(), 
 		"" 
 	),
+	Array(
+		"Коллекции товаров", 
+		"/product_collections/", 
+		Array(), 
+		Array(), 
+		"" 
+	)
 );
 ?>

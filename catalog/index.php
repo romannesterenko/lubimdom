@@ -825,6 +825,7 @@ $APPLICATION->IncludeComponent(
 		"DETAIL_BLOG_EMAIL_NOTIFY" => "Y",
 		"MAX_IMAGE_SIZE" => "0.5",
 		"BIGDATA_SHOW_FROM_SECTION" => "N",
+		"BLOG_URL" => "catalog_comments",
 		"SEF_URL_TEMPLATES" => array(
 			"sections" => "",
 			"section" => "#SECTION_CODE_PATH#/",

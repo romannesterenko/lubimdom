@@ -7,7 +7,26 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED!==true) die();
 /** @var CBitrixComponentTemplate $this */
 /** @var array $arParams */
 /** @var array $arResult */
-
+$arSelect = Array("ID", "NAME", "PREVIEW_TEXT", 'PREVIEW_PICTURE');
+$arFilter = Array("IBLOCK_ID"=>36, "ACTIVE"=>'Y', 'PROPERTY_COLLECTION'=>$arResult['ID']);
+$res = CIBlockElement::GetList(Array(), $arFilter, false, Array(), $arSelect);
+$arResult['ADVANTAGES'] = [];
+while($ob = $res->GetNextElement())
+{
+	$arFields = $ob->GetFields();
+	if($arFields['PREVIEW_PICTURE']>0)
+		$arFields['PREVIEW_PICTURE'] = CFile::GetPath($arFields['PREVIEW_PICTURE']);
+	$arResult['ADVANTAGES'][] = $arFields;
+	unset($arFields);
+}
+if($arResult['PROPERTIES']['ELEMENT_SHOW_PRICE']['VALUE']>0){
+	$arPrice = CCatalogProduct::GetOptimalPrice($arResult['PROPERTIES']['ELEMENT_SHOW_PRICE']['VALUE']);
+	if($arPrice['DISCOUNT_PRICE']>0){
+		$arResult['COLLECTION_PRICE'] = number_format($arPrice['DISCOUNT_PRICE'], 0, ',', ' ');
+	}else{
+		$arResult['COLLECTION_PRICE'] = number_format($arPrice['RESULT_PRICE']['BASE_PRICE'], 0, ',', ' ');
+	}
+}
 $displayPreviewTextMode = array(
 	'H' => true,
 	'E' => true,
@@ -59,7 +78,9 @@ if (empty($arParams['OFFER_TREE_PROPS']) && isset($arParams['OFFERS_CART_PROPERT
 			unset($arParams['OFFER_TREE_PROPS'][$key]);
 	}
 }
-
+//dd($arResult['PROPERTIES']['NABORS']);
+//dd($arResult['PROPERTIES']['SERIE_ELEMS']);
+//dd($arResult['PROPERTIES']['ADDITIONAL_PRODUCTS']);
 /*stores product*/
 $arStores=CMaxCache::CCatalogStore_GetList(array(), array("ACTIVE" => "Y"), false, false, array());
 $arResult["STORES_COUNT"] = count($arStores);
@@ -220,7 +241,7 @@ if('Y' !== $arParams['ADD_DETAIL_TO_SLIDER'] && $arResult['DETAIL_PICTURE']){
 	// unset($arResult['DETAIL_PICTURE']);
 }
 $arResult['ALT_TITLE_GET'] = $arParams['ALT_TITLE_GET'];
-$productSlider = CMax::getSliderForItemExt($arResult, $arParams['ADD_PICT_PROP'], 'Y' == $arParams['ADD_DETAIL_TO_SLIDER']);
+$productSlider = CMax::getSliderForItemExt($arResult, 'ADDITIONAL_IMAGES', 'Y' == $arParams['ADD_DETAIL_TO_SLIDER']);
 
 if (empty($productSlider))
 {
@@ -1324,7 +1345,26 @@ if($arResult["SECTION"])
 		}
 	}
 }
+$not_chars_array = [
+	'ADDITIONAL_IMAGES',
+	'ELEMENTS_COUNT',
+	'ELEMENT_SHOW_PRICE',
+	'NABORS',
+	'SERIE_ELEMS',
+	'ADDITIONAL_PRODUCTS',
+	'MAYBE_YOU_LIKE',
+	'WITH_THIS_PRODUCT_BUY',
+	'VIDEO_YOUTUBE'
+];
 
+$arResult['CARACHTERISTICS'] = [];
+foreach ($arResult['PROPERTIES'] as $key => $property){
+	if(in_array($key, $not_chars_array)&&$property['VALUE'])
+		continue;
+	$arResult['CARACHTERISTICS'][] = $property;
+}
+//dd($arResult['CARACHTERISTICS']);
+$arResult['DISPLAY_PROPERTIES'] = $arResult['PROPERTIES'];
 if(!empty($arResult['DISPLAY_PROPERTIES']))
 {
 	$arResult['LINK_STAFF'] = $arResult['DISPLAY_PROPERTIES']['LINK_STAFF']['VALUE'];
@@ -1371,6 +1411,7 @@ if(!empty($arResult['DISPLAY_PROPERTIES']))
 	if(strlen($arResult["SECTION_FULL"]["UF_VIDEO_YOUTUBE"]))
 		$arVideo[] = $arResult["SECTION_FULL"]["~UF_VIDEO_YOUTUBE"];
 	$arResult["VIDEO"] = $arVideo;
+	//dd($arResult["VIDEO"]);
 	$arResult['DISPLAY_PROPERTIES'] = CMax::PrepareItemProps($arResult['DISPLAY_PROPERTIES']);
 
 	$arGroupsProp = array();

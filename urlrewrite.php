@@ -40,6 +40,14 @@ $arUrlRewrite=array (
     'PATH' => '/bitrix/services/ymarket/index.php',
     'SORT' => 100,
   ),
+  30 => 
+  array (
+    'CONDITION' => '#^/product_collections/#',
+    'RULE' => '',
+    'ID' => 'bitrix:catalog',
+    'PATH' => '/product_collections/index.php',
+    'SORT' => 100,
+  ),
   2 => 
   array (
     'CONDITION' => '#^/online/(/?)([^/]*)#',
@@ -176,7 +184,7 @@ $arUrlRewrite=array (
     'PATH' => '/personal/index.php',
     'SORT' => 100,
   ),
-  28 => 
+  31 => 
   array (
     'CONDITION' => '#^/catalog/#',
     'RULE' => '',

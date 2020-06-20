@@ -33,14 +33,6 @@
 		</footer>
 		<?include_once(str_replace('//', '/', $_SERVER['DOCUMENT_ROOT'].'/'.SITE_DIR.'include/footer_include/bottom_footer.php'));?>
         <?
-        global $USER;
-        if ($USER->GetID() == 1) {
-            echo '<pre>';
-            print_r($APPLICATION->GetCurPage());
-            echo '</pre>';
-        }
-
-
         $iblock_id = 37;
         $arSelect = Array("ID", "NAME", "PROPERTY_URL", "PROPERTY_TITLE", "PROPERTY_DESCRIPTION", "PROPERTY_H1_TITLE", "PROPERTY_KEYWORDS");
         $arFilter = Array("IBLOCK_ID"=>$iblock_id, "ACTIVE"=>"Y");

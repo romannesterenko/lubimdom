@@ -831,7 +831,7 @@ $APPLICATION->IncludeComponent(
 			"section" => "#SECTION_CODE_PATH#/",
 			"element" => "#SECTION_CODE_PATH#/#ELEMENT_ID#/",
 			"compare" => "compare.php?action=#ACTION_CODE#",
-			"smart_filter" => "#SECTION_CODE_PATH#/filter/#SMART_FILTER_PATH#/apply/",
+			"smart_filter" => "#SECTION_CODE_PATH#/#SMART_FILTER_PATH#/",
 		),
 		"VARIABLE_ALIASES" => array(
 			"compare" => array(

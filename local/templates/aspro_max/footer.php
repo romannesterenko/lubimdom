@@ -32,5 +32,36 @@
 			<?include_once(str_replace('//', '/', $_SERVER['DOCUMENT_ROOT'].'/'.SITE_DIR.'include/footer_include/top_footer.php'));?>
 		</footer>
 		<?include_once(str_replace('//', '/', $_SERVER['DOCUMENT_ROOT'].'/'.SITE_DIR.'include/footer_include/bottom_footer.php'));?>
+        <?
+        global $USER;
+        if ($USER->GetID() == 1) {
+            echo '<pre>';
+            print_r($APPLICATION->GetCurPage());
+            echo '</pre>';
+        }
+
+
+        $iblock_id = 37;
+        $arSelect = Array("ID", "NAME", "PROPERTY_URL", "PROPERTY_TITLE", "PROPERTY_DESCRIPTION", "PROPERTY_H1_TITLE", "PROPERTY_KEYWORDS");
+        $arFilter = Array("IBLOCK_ID"=>$iblock_id, "ACTIVE"=>"Y");
+        $res = CIBlockElement::GetList(Array(), $arFilter, false, Array(), $arSelect);
+        while($ob = $res->GetNextElement())
+        {
+         $arFields = $ob->GetFields();
+         if($arFields['PROPERTY_URL_VALUE']==$APPLICATION->GetCurPage()){
+             if($arFields['PROPERTY_H1_TITLE_VALUE'])
+                $APPLICATION->SetTitle($arFields['PROPERTY_H1_TITLE_VALUE']);
+             if($arFields['PROPERTY_TITLE_VALUE']) {
+                 $APPLICATION->SetPageProperty('title', $arFields['PROPERTY_TITLE_VALUE']);
+                 $APPLICATION->AddHeadString('<meta property="og:title" content="'.$arFields['PROPERTY_TITLE_VALUE'].'" />', false);
+             }
+             if($arFields['PROPERTY_KEYWORDS_VALUE']) {
+                 $APPLICATION->SetPageProperty('keywords', $arFields['PROPERTY_KEYWORDS_VALUE']);
+             }
+             if($arFields['PROPERTY_DESCRIPTION_VALUE']['TEXT'])
+                $APPLICATION->SetPageProperty('description', $arFields['PROPERTY_DESCRIPTION_VALUE']['TEXT']);
+             $APPLICATION->AddHeadString('<meta property="og:description" content="'.$arFields['PROPERTY_DESCRIPTION_VALUE']['TEXT'].'" />', false, false, 'AFTER_JS_KERNEL');
+         }
+        }?>
 	</body>
 </html>
